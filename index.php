@@ -30,9 +30,6 @@ $validation_rules = [
     'password' => [
         'name'  => 'パスワード',
         'rules' => [
-            // ^[0-9]{4}$
-            // 先頭が０〜９の数字のいずれかを使った四桁の番号
-            // 後ろが０〜９の数字のいずれかを使った四桁の番号という意味
             'pattern'  => ['regex' => '/^[0-9]{4}$/', 'meaning' => '半角4桁の数字'],
         ],
     ],
@@ -50,8 +47,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt->bindValue(':password', !is_empty($post_inputs['password']) ? password_hash($post_inputs['password'], PASSWORD_DEFAULT) : null);
             $stmt->execute();
 
-            // /はルートディレクトリを示す。つまり、murata-challengesを指している。
-            // ./はカレントディレクトリに戻るという意味。
             header('Location: ./');
             exit;
         } catch (PDOException $e) {

@@ -30,9 +30,6 @@ if (is_empty($post['password'])) {
     $error_message = 'パスワードが正しくありません。正しいパスワードを入力してください。';
 }
 
-// ebine
-// これだとエラーがあっても password_verify() する実装なってるよね。
-// おかしいよね。
 if (empty($error_message) && !is_empty($inputs['confirm_delete_btn'])) {
     try {
         $stmt = $dbh->prepare('DELETE FROM posts WHERE id = :id');
@@ -76,8 +73,6 @@ if (empty($error_message) && !is_empty($inputs['confirm_delete_btn'])) {
                 </form>
             <?php else : ?>
                 <p class="error_message"><?php echo $error_message ?></p>
-                <!-- この条件分岐なんかわかりにくいかも -->
-                <!-- 取得されたポストにパスワードが設定されていて、かつ、パスワードの内容が一致したなかった場合 -->
                 <?php if (!is_empty($post['password'])) : ?>
                     <form action="" method="post" class="delete-form">
                         <input name="id" type="hidden" value="<?php echo $id ?>">
