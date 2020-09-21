@@ -1,0 +1,56 @@
+body {
+    margin: 0;
+    padding: 40px;
+}
+
+h1, h2 {
+    text-align: center;
+    margin-top: 20px;
+}
+
+input {
+    display: block;
+}
+
+.content {
+    width: 500px;
+    height: 100px;
+    margin: 0 auto;
+    display: block;
+}
+
+.todo {
+    float: left;
+}
+
+li {
+    display: block;
+}
+
+.todo_button {
+    background-color: white;
+    margin: 0 auto;
+    cursor: pointer;
+}
+
+.ul {
+    background-color: #eeeeee;
+    width: 1000px;
+    text-align: center;
+    margin: 50px auto;
+    padding: 20px;
+}
+
+.todo-item {
+    border-bottom: 2px solid black;
+}
+
+.title {
+    margin: auto;
+    width: 500px;
+}
+
+.form {
+    display: block;
+    margin: 0 auto;
+}

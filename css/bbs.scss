@@ -1,0 +1,133 @@
+a {
+    text-decoration: none;
+}
+
+.board {
+    text-align: center;
+    padding: 40px;
+    margin: 0 20%;
+}
+
+.btn {
+    width: 150px;
+    height: 30px;
+    margin: 0 auto;
+    border: none;
+    display: block;
+    padding: 0 15px;
+    border-radius: 5px;
+    background-color: #333;
+    color: #fff;
+    font-weight: bold;
+    font-size: 20px;
+    text-decoration: none;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    cursor: pointer;
+}
+
+.submitBtn {
+    @extend .btn;
+    width: 100%;
+}
+
+.confirm-delete-btn,
+.cancel-btn,
+.back-btn,
+.delete-btn {
+    @extend .btn;
+    text-decoration: none;
+    margin-top: 10px;
+    padding: 0 15px;
+    width: 150px;
+}
+
+.cancel-btn,
+.back-btn {
+    padding: 0;
+    margin-bottom: 20px;
+}
+
+.password-form {
+    margin-right: 100%;
+    width: 300px;
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+.delete-password-form {
+    width: 140px;
+    padding: 5px;
+    border-radius: 5px;
+    margin: 0 auto;
+    border: 1px solid #ccc;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+.title-form {
+    width: 100%;
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+textarea {
+    width: 100%;
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+.post-box {
+    padding: 20px;
+    background-color: #dddddd;
+    border-top: 2px solid black;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+    margin-bottom: 20px;
+}
+
+.title {
+    font-weight: bold;
+    padding-top: 20px;
+    text-align: left;
+}
+
+.message {
+    padding: 20px 0;
+    text-align: left;
+}
+
+.error_message {
+    color: red;
+}
+
+.created_at {
+    font-size: small;
+    text-align: right;
+}
+
+.page-btn {
+    padding: 5px;
+    border: 2px solid black;
+    text-decoration: none;
+    color: black;
+    font-size: 20px;
+}
+
+.current {
+    background-color: red;
+}
