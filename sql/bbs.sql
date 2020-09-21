@@ -1,8 +1,0 @@
-CREATE TABLE `posts` (
-  `id` INT(11) NOT NULL AUTO_INCREMENT,
-  `title` VARCHAR(255) DEFAULT NULL,
-  `message` TEXT,
-  `created_at` DATETIME DEFAULT NULL,
-  `password` VARCHAR(255) DEFAULT NULL,
-  KEY `id` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8
