@@ -118,11 +118,12 @@ if ($total_post_count > 0) {
                 <p class="title"><?php echo h($post['title']) ?></p>
                 <p class="message"><?php echo nl2br(h($post['message'])) ?></p>
                 <p class="created_at"><?php echo date('Y-m-d H:i', strtotime($post['created_at'])) ?></p>
-                <form method="post" action="delete.php" class="delete-form">
+                <form method="post" class="delete-form">
                     <input name="password" type="password" class="delete-password-form" placeholder="パスワードを入力してください。">
                     <input name="id" type="hidden" value="<?php echo $post['id'] ?>">
                     <input name="current_page_num" type="hidden" value="<?php echo $paginator->getCurrentPageNum() ?>">
-                    <input type="submit" value="削除" class="delete-btn">
+                    <input type="submit" formaction="edit.php" value="編集" class="delete-btn">
+                    <input type="submit" formaction="delete.php" value="削除" class="delete-btn">
                 </form>
             </div>
         <?php endforeach ?>
