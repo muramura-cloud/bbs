@@ -2,7 +2,64 @@
 
 class Validation
 {
-    public function validateRequired($input, $input_name, $is_required)
+    private $validation_rules;
+
+    public function __construct($validation_rules)
+    {
+        $this->validation_rules = $validation_rules;
+    }
+
+    public function validate($inputs)
+    {
+        $error_messages = [];
+        foreach ($this->validation_rules as $input_key => $validation_rule) {
+            $input = null;
+            if (isset($inputs[$input_key])) {
+                $input = $inputs[$input_key];
+            }
+
+            foreach ($validation_rule['rules'] as $rule_name => $rule) {
+                if ($rule_name === 'required') {
+                    $validate_required_error_message = $this->validateRequired($input, $validation_rule['name'], $rule);
+                    if ($validate_required_error_message !== '') {
+                        $error_messages[] = $validate_required_error_message;
+                    }
+                }
+
+                if ($rule_name === 'length') {
+                    $validate_length_error_message = $this->validateLength($input, $validation_rule['name'], $rule);
+                    if ($validate_length_error_message !== '') {
+                        $error_messages[] = $validate_length_error_message;
+                    }
+                }
+
+                if ($rule_name === 'pattern') {
+                    $validate_pattern_error_message = $this->validatePattern($input, $validation_rule['name'], $rule);
+                    if ($validate_pattern_error_message !== '') {
+                        $error_messages[] = $validate_pattern_error_message;
+                    }
+                }
+
+                if ($rule_name === 'allow_exts') {
+                    $validate_ext_error_message = $this->validateExt($input, $validation_rule['name'], $rule);
+                    if ($validate_ext_error_message !== '') {
+                        $error_messages[] = $validate_ext_error_message;
+                    }
+                }
+
+                if ($rule_name === 'max_size') {
+                    $validate_size_error_message = $this->validateSize($input, $validation_rule['name'], $rule);
+                    if ($validate_size_error_message !== '') {
+                        $error_messages[] = $validate_size_error_message;
+                    }
+                }
+            }
+        }
+
+        return $error_messages;
+    }
+
+    private function validateRequired($input, $input_name, $is_required)
     {
         if ($is_required && is_empty($input)) {
             return $input_name . 'を入力してください。';
@@ -11,7 +68,7 @@ class Validation
         return '';
     }
 
-    public function validateLength($input, $input_name, $length)
+    private function validateLength($input, $input_name, $length)
     {
         if (is_empty($input)) {
             return '';
@@ -43,7 +100,7 @@ class Validation
         return '';
     }
 
-    public function validatePattern($input, $input_name, $pattern)
+    private function validatePattern($input, $input_name, $pattern)
     {
         if (is_empty($input)) {
             return '';
@@ -56,39 +113,48 @@ class Validation
         return '';
     }
 
-    public function validate($inputs, $validate_rules)
+    private function validateExt($input, $input_name, $allow_exts)
     {
-        $error_messages = [];
-        foreach ($validate_rules as $input_key => $validate_rule) {
-            $input = null;
-            if (isset($inputs[$input_key])) {
-                $input = $inputs[$input_key];
-            }
+        if (is_empty($input)) {
+            return '';
+        }
 
-            foreach ($validate_rule['rules'] as $rule_name => $rule) {
-                if ($rule_name === 'required') {
-                    $validate_required_error_message = $this->validateRequired($input, $validate_rule['name'], $rule);
-                    if ($validate_required_error_message !== '') {
-                        $error_messages[] = $validate_required_error_message;
-                    }
-                }
+        if (!in_array(mime_content_type($input['tmp_name']), $allow_exts) || !in_array(pathinfo($input['name'], PATHINFO_EXTENSION), $allow_exts)) {
+            return $input_name . 'の拡張子は' . implode(',', array_keys($allow_exts)) . 'のいずれかにしてください。';
+        }
 
-                if ($rule_name === 'length') {
-                    $validate_length_error_message = $this->validateLength($input, $validate_rule['name'], $rule);
-                    if ($validate_length_error_message !== '') {
-                        $error_messages[] = $validate_length_error_message;
-                    }
-                }
+        return '';
+    }
 
-                if ($rule_name === 'pattern') {
-                    $validate_pattern_error_message = $this->validatePattern($input, $validate_rule['name'], $rule);
-                    if ($validate_pattern_error_message !== '') {
-                        $error_messages[] = $validate_pattern_error_message;
-                    }
-                }
+    private function validateSize($input, $input_name, $max_size)
+    {
+        if (is_empty($input)) {
+            return '';
+        }
+
+        $file_size = $input['size'];
+
+        if ($file_size > $max_size) {
+            return $input_name . 'のサイズは' . $this->byteUnitFormat($max_size) . '以下にしてください。';
+        }
+
+        return '';
+    }
+
+    private function byteUnitFormat($bytes)
+    {
+        $unit_bytes = [
+            'GB'   => pow(1024, 3),
+            'MB'   => pow(1024, 2),
+            'KB'   => 1024,
+        ];
+
+        foreach ($unit_bytes as $unit_name => $unit_byte) {
+            if ($bytes >= $unit_byte) {
+                return round($bytes / $unit_byte) . $unit_name;
             }
         }
 
-        return $error_messages;
+        return $bytes . 'byte';
     }
 }

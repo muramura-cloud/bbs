@@ -3,7 +3,7 @@
 class Paginator
 {
     private $total_item_count;
-    private $per_page_item_count = 10;
+    private $item_count_per_page = 10;
     private $current_page_num    = 1;
     private $page_btn_count      = 5;
 
@@ -26,17 +26,17 @@ class Paginator
         }
     }
 
-    public function getPerPageItemCount()
+    public function getItemCountPerPage()
     {
-        return $this->per_page_item_count;
+        return $this->item_count_per_page;
     }
 
-    public function setPerPageItemCount($per_page_item_count)
+    public function setItemCountPerPage($item_count_per_page)
     {
-        $this->per_page_item_count = $per_page_item_count;
+        $this->item_count_per_page = $item_count_per_page;
+        $this->setCurrentPageNum($this->current_page_num);
     }
 
-    // $page_btn_countのgetterは必要ないの？
     public function setPageBtnCount($page_btn_count)
     {
         $this->page_btn_count = $page_btn_count;
@@ -46,7 +46,7 @@ class Paginator
     {
         $max_page_num = 1;
         if ($this->total_item_count > 0) {
-            $max_page_num = (int) ceil($this->total_item_count / $this->per_page_item_count);
+            $max_page_num = (int) ceil($this->total_item_count / $this->item_count_per_page);
         }
 
         return $max_page_num;
@@ -74,10 +74,7 @@ class Paginator
 
     public function getPageNums()
     {
-        $page_nums = [];
-
-        $max_page_num = $this->getMaxPageNum();
-
+        $max_page_num        = $this->getMaxPageNum();
         $prev_page_btn_count = (int) ceil(($this->page_btn_count - 1) / 2);
         $next_page_btn_count = $this->page_btn_count - 1 - $prev_page_btn_count;
 
@@ -101,10 +98,6 @@ class Paginator
             $end_page_num = $this->current_page_num + $next_page_btn_count + $prev_over_count;
         }
 
-        for ($page_num = $start_page_num; $page_num <= $end_page_num; $page_num++) {
-            $page_nums[] = $page_num;
-        }
-
-        return $page_nums;
+        return range($start_page_num, $end_page_num);
     }
 }
