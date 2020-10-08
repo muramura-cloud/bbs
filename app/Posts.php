@@ -2,16 +2,9 @@
 
 require_once(__DIR__ . '/../lib/Database.php');
 
-// プロパティに画像を保存する場所を指定すれば良いのかな。後、ゲッターとセッターを用意する。
-// 画像を削除する機能deleteImg
-// 画像のファイル名をユニークにする機能setUniqueId
-// 画像を指定したディレクトリに保存する機能saveImg
 class Posts extends Database
 {
     protected $table_name = 'posts';
-
-    // ここは絶対パスで指定すれば良い。
-    private $img_path = '/bbs/images/';
 
     private $validation_rules = [
         'title' => [

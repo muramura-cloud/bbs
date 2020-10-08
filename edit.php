@@ -48,18 +48,12 @@ if (empty($error_message) && !is_empty($inputs['do_edit'])) {
     $validate_error_messages = $validation->validate($inputs);
 
     if (empty($validate_error_messages)) {
-        // adv: 画像がどこにアップロードされているかも Posts クラスの責務の範囲内じゃない？
         if (!is_empty($post['file_name']) && file_exists('./images/' . $post['file_name']) && !is_empty($inputs['delete_img'])) {
             unlink('./images/' . $inputs['file_name']);
             $inputs['file_name'] = null;
         } elseif (isset($inputs['img'])) {
-            // 絶対にファイルネームがかぶらないようにする
             $inputs['file_name']  = uniqid();
-            // adv: バリデーションは mime_type を見るようになったけど、こっちは拡張子をそのまま見てるので、test.exe(画像の拡張子をexeに変える) みたいなファイルができてしまいます。
-            //      バリデーションで変なのがアップロードされないのは保証されているので大きな問題は起きないけど、
-            //      ブラウザでアクセスした時に image/jpeg ではなく .exe の mime_type が返ってきてしまうので、たまに変になる可能性があります。
             $inputs['file_name'] .= '.' . pathinfo($inputs['img']['name'], PATHINFO_EXTENSION);
-            // 実際に送られてきたファイルを指定したディレクトリに送信している。
             move_uploaded_file($inputs['img']['tmp_name'], './images/' . $inputs['file_name']);
 
             if (!is_empty($post['file_name']) && file_exists('./images/' . $post['file_name'])) {
